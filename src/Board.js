@@ -48,16 +48,25 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0 }) {
     return initialBoard;
   }
 
-  function hasWon() {
+  function hasWon(arr, i = 0, j = 0) {
+    if (i < nrows) hasWon(arr, i + 1, j)
+    if (j < ncols) hasWon(arr, i, j + 1)
 
-    for (let i = 0; i < nrows; i++) {
-      for (let j = 0; j < ncols; j++) {
-        if (board[i][j]) return false;
-      }
-    }
-
+    if (arr[i][j]) return false;
+    
     return true;
   }
+
+  // function hasWon() {
+
+  //   for (let i = 0; i < nrows; i++) {
+  //     for (let j = 0; j < ncols; j++) {
+  //       if (board[i][j]) return false;
+  //     }
+  //   }
+
+  //   return true;
+  // }
 
   function flipCellsAround(coord) {
     setBoard(oldBoard => {
