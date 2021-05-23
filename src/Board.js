@@ -28,7 +28,7 @@ import "./Board.css";
  *
  **/
 
-function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0 }) {
+function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = .25 }) {
   const [board, setBoard] = useState(createBoard());
 
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
@@ -38,8 +38,10 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0 }) {
     for (let i = 0; i < nrows; i++) {
       const cols = [];
       for (let j = 0; j < ncols; j++) {
-        const randNum = Math.random() * 100;
-        randNum <= chanceLightStartsOn ? cols.push(true) : cols.push(false);
+        // const randNum = Math.random() * 100;
+        // randNum <= chanceLightStartsOn ? cols.push(true) : cols.push(false);
+        // from solution code
+        cols.push(Math.random() < chanceLightStartsOn);
       }
 
       initialBoard.push(cols);
@@ -48,25 +50,28 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0 }) {
     return initialBoard;
   }
 
-  function hasWon(arr, i = 0, j = 0) {
-    if (i < nrows) hasWon(arr, i + 1, j)
-    if (j < ncols) hasWon(arr, i, j + 1)
+  // recursive attempt
+  // function hasWon(arr, i = 0, j = 0) {
+  //   if (i < nrows) hasWon(arr, i + 1, j)
+  //   if (j < ncols) hasWon(arr, i, j + 1)
 
-    if (arr[i][j]) return false;
+  //   if (arr[i][j]) return false;
     
-    return true;
-  }
-
-  // function hasWon() {
-
-  //   for (let i = 0; i < nrows; i++) {
-  //     for (let j = 0; j < ncols; j++) {
-  //       if (board[i][j]) return false;
-  //     }
-  //   }
-
   //   return true;
   // }
+
+  function hasWon() {
+    for (let i = 0; i < nrows; i++) {
+      for (let j = 0; j < ncols; j++) {
+        if (board[i][j]) return false;
+      }
+    }
+
+    return true;
+
+    // from solution code
+    // return board.every(row => row.every(cell => !cell));
+  }
 
   function flipCellsAround(coord) {
     setBoard(oldBoard => {
@@ -95,7 +100,7 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = 0 }) {
     <table>
       <tbody>
         {board.map((row, y) => (
-          <tr key={Math.random()}>
+          <tr key={y}>
             {row.map((cell, x) => <Cell flipCellsAroundMe={() => flipCellsAround(`${y}-${x}`)} isLit={cell} key={`${y}-${x}`}/>)}
           </tr>
         ))}
