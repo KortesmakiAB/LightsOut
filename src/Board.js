@@ -50,16 +50,6 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = .25 }) {
     return initialBoard;
   }
 
-  // recursive attempt
-  // function hasWon(arr, i = 0, j = 0) {
-  //   if (i < nrows) hasWon(arr, i + 1, j)
-  //   if (j < ncols) hasWon(arr, i, j + 1)
-
-  //   if (arr[i][j]) return false;
-    
-  //   return true;
-  // }
-
   function hasWon() {
     for (let i = 0; i < nrows; i++) {
       for (let j = 0; j < ncols; j++) {
@@ -68,9 +58,6 @@ function Board({ nrows = 3, ncols = 3, chanceLightStartsOn = .25 }) {
     }
 
     return true;
-
-    // from solution code
-    // return board.every(row => row.every(cell => !cell));
   }
 
   function flipCellsAround(coord) {
